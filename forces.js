@@ -3,7 +3,7 @@
 // scene control
 
 var scenes = ["Start", "G_force", "E_force", "M_force", "M_examples", "Quiz"];
-var scene = "E_force"; // pick one from scenes
+var scene = "Start"; // pick one from scenes
 
 // These 5 {object} variables hold ALL the other variables used in the 5 areas.
 // Create 'sub-variables' using a dot, eg g.planet=100. 
@@ -707,6 +707,7 @@ var setup_mag = function(m) {
     m.M_MY=196;
     m.M_MW=112;
     m.M_MH=140;
+    m.in_M_M = false;
 
     // same for all arrows
     m.arrow_x_spacing = 85;
@@ -743,7 +744,105 @@ var draw_arrow = function (x,y,w,h) {
 
 };
 
+var draw_mag = function (m) {
+    
+    background(255, 255, 255);
+    
+    fill(255, 221, 140);
+    rect(-1,200,403,199);
+    noStroke();
+    
+    //Magnets- Outside:)
+    fill(217, 0, 0); // N
+    rect(m.M+53, m.MM+-89, m.M-51, m.M+96,5);
+    fill(41, 0, 207); //S
+    rect(m.M+53, m.MM+-94, m.M-51, m.M+5,6);
+    
+    //Magnets Inside
+    fill(255, 0, 0);//m.N
+    rect(m.M+52, m.MM+-88, m.M-60, m.M+93,3);
+    fill(47, 0, 255);//m.S
+    rect(m.M+52, m.MM+-89, m.M-60, m.M+0,3);
+    
+
+    //gray magnet 1.
+    fill(120, 115, 115);
+    rect(m.M_MX,m.M_MY,m.M_MW, m.M_MH,8);
+    fill(196, 192, 192);
+    rect(m.M+-11, m.MM+106, m.M+4, m.M+32,8);
+    
+    //2.
+    fill(120, 115, 115);
+    rect(m.M+-16, m.MM+242, m.M+12, m.M+40,8);
+    fill(196, 192, 192);
+    rect(m.M+-16, m.MM+243, m.M+4, m.M+32,8);
+    
+    // explanation
+    fill(184, 77, 0);
+    rect(224,172,150,32,5);
+    rect(201,197,193,32,5);
+    rect(208,221,161,32,5);
+    rect(197,246,207,32,5);//shade
+    
+    fill(222, 133, 17);
+    rect(227,172,145,25,5);
+    rect(204,197,188,25,5);
+    rect(211,221,156,25,5);
+    rect(198,246,202,25,5);
+    
+    //Force arrows
+    fill(18, 35, 128);
+
+    draw_arrow(
+        m.arrow_x, 
+        m.arrow_y, 
+        m.arrow_w, 
+        m.arrow_h);
+    
+    draw_arrow(
+        m.arrow_x + m.arrow_x_spacing, 
+        m.arrow_y, 
+        m.arrow_w, 
+        m.arrow_h);
+    
+    draw_arrow(
+        m.arrow_x + m.arrow_x_spacing*2,
+        m.arrow_y, 
+        m.arrow_w, 
+        m.arrow_h);
+    
+    //Texts
+    fill(255, 255, 255);
+    textSize(23);
+    text("N",165,45); //N
+    fill(255, 255, 255);
+    textSize(23);
+    text("S",166,186); //S
+    textSize(20);
+    text("Magnetic",99,257); //Magnetic
+    text("Materials",100,283); //Materials
+    
+    fill(242, 255, 0);
+    textSize(19);
+    text("-Examples-",98,320); //Click me
+    
+    fill(255, 255, 255);
+    textSize(19);
+    text("Magnetic force ",235,190);
+    text("is the force between",209,214);
+    text("the magnet and",218,239); 
+    text("the magnetic material.",204,264); 
+     
+    //ANIMATION TOOLS
+    m.arrow_y -= m.arrow_y_speed;
+    if (m.arrow_y < m.arrow_y_max) {
+        m.arrow_y = m.arrow_y_min;
+    }
+    
+};
+
 var draw_mag_examples = function() {
+    
     noStroke();
     background(255, 213, 145);
     
@@ -810,99 +909,6 @@ var draw_mag_examples = function() {
 
 };
 
-var draw_mag = function (m) {
-    background(255, 255, 255);
-    fill(255, 221, 140);
-    rect(-1,200,403,199);
-    noStroke();
-    
-    //Magnets- Outside:)
-    fill(217, 0, 0);//m.N
-    rect(m.M+53, m.MM+-89, m.M-51, m.M+96,5);
-    fill(41, 0, 207);//m.S
-    rect(m.M+53, m.MM+-94, m.M-51, m.M+5,6);
-    
-    //Magnets Inside
-    fill(255, 0, 0);//m.N
-    rect(m.M+52, m.MM+-88, m.M-60, m.M+93,3);
-    fill(47, 0, 255);//m.S
-    rect(m.M+52, m.MM+-89, m.M-60, m.M+0,3);
-    
-    //gray magnet 1.
-    fill(120, 115, 115);
-    rect(m.M_MX,m.M_MY,m.M_MW, m.M_MH,8);
-    fill(196, 192, 192);
-    rect(m.M+-11, m.MM+106, m.M+4, m.M+32,8);
-    
-    //2.
-    fill(120, 115, 115);
-    rect(m.M+-16, m.MM+242, m.M+12, m.M+40,8);
-    fill(196, 192, 192);
-    rect(m.M+-16, m.MM+243, m.M+4, m.M+32,8);
-    
-    // explanation
-    fill(184, 77, 0);
-    rect(224,172,150,32,5);
-    rect(201,197,193,32,5);
-    rect(208,221,161,32,5);
-    rect(197,246,207,32,5);//shade
-    
-    fill(222, 133, 17);
-    rect(227,172,145,25,5);
-    rect(204,197,188,25,5);
-    rect(211,221,156,25,5);
-    rect(198,246,202,25,5);
-    
-    //Force arrows
-    fill(18, 35, 128);
-
-    draw_arrow(
-        m.arrow_x, 
-        m.arrow_y, 
-        m.arrow_w, 
-        m.arrow_h);
-    
-    draw_arrow(
-        m.arrow_x + m.arrow_x_spacing, 
-        m.arrow_y, 
-        m.arrow_w, 
-        m.arrow_h);
-    
-    draw_arrow(
-        m.arrow_x + m.arrow_x_spacing*2,
-        m.arrow_y, 
-        m.arrow_w, 
-        m.arrow_h);
-    
-    //Texts
-    fill(255, 255, 255);
-    textSize(23);
-    text("N",165,45); //N
-    fill(255, 255, 255);
-    textSize(23);
-    text("S",166,186); //S
-    textSize(20);
-    text("Magnetic",99,257); //Magnetic
-    text("Materials",100,283); //Materials
-    
-    fill(242, 255, 0);
-    textSize(19);
-    text("-Click me-",98,320); //Click me
-    
-    fill(255, 255, 255);
-    textSize(19);
-    text("Magnetic force ",235,190);
-    text("is the force between",209,214);
-    text("the magnet and",218,239); 
-    text("the magnetic material.",204,264); 
-     
-    //ANIMATION TOOLS
-    m.arrow_y -= m.arrow_y_speed;
-    if (m.arrow_y < m.arrow_y_max) {
-        m.arrow_y = m.arrow_y_min;
-    }
-};
-
 var setup_quiz = function (q) {
 };
 
@@ -917,7 +923,6 @@ setup_start(s);
 setup_gravity(g);
 setup_electro(e);
 setup_mag(m);
-//setup_M_examples(m2);
 setup_quiz(q);
 
 var draw = function() {
@@ -925,17 +930,35 @@ var draw = function() {
     
     if (scene === "Start") {
         draw_start(s);
+        
     } else if (scene === "G_force") {
         draw_gravity(g);
-    } else if (scene === "M_force") {
-        //draw_mag(m);
+        
     } else if (scene === "E_force") {
         draw_electro(e);
+        
+    } else if (scene === "M_force") {
+        
+        if (mouseX > m.M_MX && 
+            mouseX < m.M_MX + m.M_MW && 
+            mouseY > m.M_MY && 
+            mouseY < m.M_MY + m.M_MH) {
+                
+            m.in_M_M = true;
+            draw_mag_examples(m);
+            
+        } else {
+            m.in_M_M = false;
+            draw_mag(m);
+        }
+
     } else if (scene === "Quiz") {
         draw_quiz(q);
+        
     } else {
         println("Unhandled value! scene is set to: " + scene);
     }
+    
 };
 
 var mouseClicked = function() {
@@ -959,7 +982,6 @@ var mouseClicked = function() {
         setup_start(s);
         scene = 'Start';
     }
-    // println(scene);
     
     // reset in case we've changed scene
     s.in_gbox = false;

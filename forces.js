@@ -334,14 +334,14 @@ var draw_mag_examples = function() {
 var draw_start = function(s) {
    
     background(255, 255, 255);
-
+    stroke(0, 0, 0);
     fill(255, 255, 255);
     rect(s.Q*30.20, s.Q*15.4, s.Q*7.5, s.Q*8, s.Q-6);//paper
 
     fill(196, 181, 181);
     rect(s.Q*30.5, s.Q*14.2, s.Q*7, s.Q*2, s.Q-6);//Clip
     fill(145, 129, 129);
-    rect(s.Q*31.4, s.Q*14.2, s.Q*5, s.Q*1, s.Q-6);//some rect. on the top that I don't know the exact name;
+    rect(s.Q*31.4, s.Q*14.2, s.Q*5, s.Q*1, s.Q-6);//some rect. on the top that I don't know the exact name (baseplate?)
     rect(s.Q*36.2, s.Q*15.2, s.Q*0.8, s.Q*0.8, s.Q-6);//hole1
     rect(s.Q*31.0, s.Q*15.2, s.Q*0.8, s.Q*0.8, s.Q-6);//hole2
     
@@ -958,7 +958,7 @@ var draw = function() {
         draw_electro(e);
         
     } else if (scene === "M_force") {
-            draw_mag(m);
+        draw_mag(m);
             
     } else if (scene === "Quiz") {
         draw_quiz(q);

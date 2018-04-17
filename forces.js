@@ -138,7 +138,7 @@ var setup_quiz = function (q) {
 
 
 // helper functions
-var draw_arrow = function (x,y,w,h) {
+var draw_arrow = function (x,y,w,h,dir) {
     // draw an arrow inside 
     // the box defined by x,y,w,h
     /*
@@ -149,14 +149,24 @@ var draw_arrow = function (x,y,w,h) {
       +-+-+-+
     
     */
-
-    triangle(
-        x+w/2,  y,       // top point
-        x,      y+h/2,   // left corner
-        x+w,    y+h/2);  // right corner
-    
-    rect(x+w/3, y+h/2, w/3, h/2);
-
+    if (dir === 'up') {
+        triangle(
+            x+w/2,  y,       // top point
+            x,      y+h/2,   // left corner
+            x+w,    y+h/2);  // right corner
+        
+        rect(x+w/3, y+h/2, w/3, h/2);
+        
+    } else if (dir === 'down') {
+        triangle(
+            x+w/2,  y+h,     // top point
+            x,      y+h/2,   // left corner
+            x+w,    y+h/2);  // right corner
+        
+        rect(x+w/3, y, w/3, h/2);
+    } else {
+        println('Unhandled value for "dir" in draw_arrow: ' + dir);
+    }
 };
 
 var draw_mag_main = function (m) {
@@ -238,19 +248,22 @@ var draw_mag_main = function (m) {
         m.arrow_x, 
         m.arrow_y, 
         m.arrow_w, 
-        m.arrow_h);
+        m.arrow_h,
+        'up');
     
     draw_arrow(
         m.arrow_x + m.arrow_x_spacing, 
         m.arrow_y, 
         m.arrow_w, 
-        m.arrow_h);
+        m.arrow_h,
+        'up');
     
     draw_arrow(
         m.arrow_x + m.arrow_x_spacing*2,
         m.arrow_y, 
         m.arrow_w, 
-        m.arrow_h);
+        m.arrow_h,
+        'up');
 
     //ANIMATION TOOLS
     m.arrow_y -= m.arrow_y_speed;
@@ -753,12 +766,10 @@ var draw_gravity = function (g) {
     
     //arrows
     fill(0, 68, 255);
-    rect(g.Ar+15,g.Ary+77,g.A+-89,g.A+-76);//left arrow
-    triangle(g.A+34,g.Al1,g.A+21,g.Al2,g.A+8,g.Al3);
-    rect(g.Ar+103,g.Ary+104,g.A+-89,g.A+-76);//middle arrow
-    triangle(g.A+96,g.Am1,g.A+108,g.Am2,g.A+123,g.Am3);
-    rect(g.Ar+151,g.Ary+58,g.A+-89,g.A+-76);//right arrow
-    triangle(g.A+174,g.Ar1,g.A+157,g.Ar2,g.A+142,g.Ar3);
+    draw_arrow(g.Ar+15,g.Al1+47,g.A/4,g.A/2, "down");
+    draw_arrow(g.Ar+96,g.Am1+45,g.A/4,g.A/2, "down");
+    draw_arrow(g.Ar+150,g.Ar1+77,g.A/4,g.A/2, "down");
+    
 
     //animation
     g.Fy+=1;//fruit

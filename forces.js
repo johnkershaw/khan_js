@@ -3,7 +3,7 @@
 // scene control
 
 var scenes = ["Start", "G_force", "E_force", "M_force", "M_examples", "Quiz"];
-var scene = "Start"; // pick one from scenes
+var scene = "E_force"; // pick one from scenes
 
 // These 5 {object} variables hold ALL the other variables used in the 5 areas.
 // Create 'sub-variables' using a dot, eg g.planet=100. 
@@ -537,46 +537,35 @@ var draw_gravity = function (g) {
 };
 
 var setup_electro = function(e) {
-
+    // set variables to their 'start' positions
+    e.P=30;
+    e.C=100;
+    e.A=100;
+    e.Ay=100;
+    e.Ch=25;
+    e.ChX1=99;
+    e.ChY1=99;
+    
+    e.ChX2=99;
+    e.ChY2=99;
+    
+    e.ChX3=99;
+    e.ChY3=99;
+    
+    e.Al2=199;
+    e.Al4=200;
+    e.Al6=169;
+    
+    e.Am2=250;
+    e.Am4=250;
+    e.Am6=226;
+    
+    e.Ar2=199;
+    e.Ar4=200;
+    e.Ar6=169;
 };
 
-var setup_mag = function(m) {
-    
-};
-
-var setup_quiz = function(q) {
-    
-};
-
-var setup_electro = function(e) {
-    var P=30;
-    var C=100;
-    var A=100;
-    var Ay=100;
-    var Ch=25;
-    var ChX1=99;
-    var ChY1=99;
-    
-    var ChX2=99;
-    var ChY2=99;
-    
-    var ChX3=99;
-    var ChY3=99;
-    
-    var Al2=199;
-    var Al4=200;
-    var Al6=169;
-    
-    var Am2=250;
-    var Am4=250;
-    var Am6=226;
-    
-    var Ar2=199;
-    var Ar4=200;
-    var Ar6=169;
-};
-
-var draw_electro = function (Electrostastic_force) {
+var draw_electro = function (e) {
     background(255, 255, 255);
 
     //table
@@ -587,56 +576,59 @@ var draw_electro = function (Electrostastic_force) {
     
     //CHARGED POWER
     fill(109, 224, 9);
-    ellipse(ChX1+148,ChY1+47,Ch,Ch);//1
-    ellipse(ChX1+61,ChY1+102,Ch-10,Ch-10);//2
-    ellipse(ChX1+58,ChY1-12,Ch-10,Ch-10);//3
+    ellipse(e.ChX1+148,e.ChY1+47,e.Ch,e.Ch);//1
+    ellipse(e.ChX1+61,e.ChY1+102,e.Ch-10,e.Ch-10);//2
+    ellipse(e.ChX1+58,e.ChY1-12,e.Ch-10,e.Ch-10);//3
     fill(119, 255, 0);
-    ellipse(ChX2+10,ChY2+69,Ch-13,Ch-13);//1
-    ellipse(ChX2+112,ChY2+15,Ch-15,Ch-15);//2
-    ellipse(ChX2+158,ChY2+91,Ch-12,Ch-12);//3
+    ellipse(e.ChX2+10,e.ChY2+69,e.Ch-13,e.Ch-13);//1
+    ellipse(e.ChX2+112,e.ChY2+15,e.Ch-15,e.Ch-15);//2
+    ellipse(e.ChX2+158,e.ChY2+91,e.Ch-12,e.Ch-12);//3
     fill(180, 255, 115);
-    ellipse(ChX3+19,ChY3+19,Ch-5,Ch-5);//1
-    ellipse(ChX3+104,ChY3+54,Ch-11,Ch-11);//2
+    ellipse(e.ChX3+19,e.ChY3+19,e.Ch-5,e.Ch-5);//1
+    ellipse(e.ChX3+104,e.ChY3+54,e.Ch-11,e.Ch-11);//2
     
 
     
     //comb
     fill(201, 65, 65);
-    quad(C+49, C+58, C+85, C+93, C+64, C+97, C+32, C+73);//leg1
+    quad(e.C+49, e.C+58, e.C+85, e.C+93, e.C+64, e.C+97, e.C+32, e.C+73);//leg1
     fill(255, 112, 112);
-    quad(C+241, C+-114, C+228, C+-113, C+264, C+-70, C+267, C+-89);//leg8
-    quad(C+100, C+9, C+131, C+51, C+118, C+61, C+88, C+20);//leg3
+    quad(e.C+241, e.C+-114, e.C+228, e.C+-113, e.C+264, e.C+-70, e.C+267, e.C+-89);//leg8
+    quad(e.C+100, e.C+9, e.C+131, e.C+51, e.C+118, e.C+61, e.C+88, e.C+20);//leg3
     fill(255, 181, 181);
-    quad(C+73, C+34, C+58, C+48, C+90, C+79, C+102, C+68);//leg2 
-    quad(C+132, C+-23, C+115, C+-7, C+151, C+31, C+161, C+23);//leg4 
-    quad(C+214, C+-101, C+199, C+-90, C+239, C+-51, C+248, C+-64);//leg7
+    quad(e.C+73, e.C+34, e.C+58, e.C+48, e.C+90, e.C+79, e.C+102, e.C+68);//leg2 
+    quad(e.C+132, e.C+-23, e.C+115, e.C+-7, e.C+151, e.C+31, e.C+161, e.C+23);//leg4 
+    quad(e.C+214, e.C+-101, e.C+199, e.C+-90, e.C+239, e.C+-51, e.C+248, e.C+-64);//leg7
     fill(255, 112, 112);
-    quad(C+156, C+-48, C+147, C+-36, C+178, C+0, C+190, C+-9);//leg5
-    quad(C+188, C+-75, C+170, C+-67, C+213, C+-21, C+219, C+-36);//leg6
+    quad(e.C+156, e.C+-48, e.C+147, e.C+-36, e.C+178, e.C+0, e.C+190, e.C+-9);//leg5
+    quad(e.C+188, e.C+-75, e.C+170, e.C+-67, e.C+213, e.C+-21, e.C+219, e.C+-36);//leg6
     fill(255, 61, 61);
-    quad(C+175, C-111, C+213, C-99, C+33, C+74, C+06, C+51);//comb base
+    quad(e.C+175, e.C-111, e.C+213, e.C-99, e.C+33, e.C+74, e.C+06, e.C+51);//comb base
     noStroke();
     
     //Pieces of paper
     fill(251, 255, 20);
-    rect(P+134,P+141,P+2,P+2);//P2
-    rect(P+86,P+204,P+2,P-15);//P1
+    rect(e.P+134,e.P+141,e.P+2,e.P+2);//P2
+    rect(e.P+86,e.P+204,e.P+2,e.P-15);//P1
+    
     fill(227, 212, 0);
-    rect(P+100,P+157,P+2,P+2);//P4
-    rect(P+72,P+205,P+2,P-17);//P7
-    rect(P+101,P+226,P+2,P-15);//P10
-    rect(P+141,P+227,P+2,P-16);//P3
+    rect(e.P+100,e.P+157,e.P+2,e.P+2);//P4
+    rect(e.P+72,e.P+205,e.P+2,e.P-17);//P7
+    rect(e.P+101,e.P+226,e.P+2,e.P-15);//P10
+    rect(e.P+141,e.P+227,e.P+2,e.P-16);//P3
+    
     fill(255, 215, 84);
-    rect(P+168,P+130,P+2,P+2);//P6
-    rect(P+138,P+172,P+2,P+2);//P9
-    rect(P+147,P+211,P+2,P-15);//P11
-    rect(P+112,P+237,P+2,P+-15);//P8
-    rect(P+67,P+219,P+2,P+-12);//P5
-    rect(P+153,P+233,P+2,P-18);//P14
-    rect(P+108,P+213,P+2,P-16);//P15
+    rect(e.P+168,e.P+130,e.P+2,e.P+2);//P6
+    rect(e.P+138,e.P+172,e.P+2,e.P+2);//P9
+    rect(e.P+147,e.P+211,e.P+2,e.P-15);//P11
+    rect(e.P+112,e.P+237,e.P+2,e.P+-15);//P8
+    rect(e.P+67,e.P+219,e.P+2,e.P+-12);//P5
+    rect(e.P+153,e.P+233,e.P+2,e.P-18);//P14
+    rect(e.P+108,e.P+213,e.P+2,e.P-16);//P15
+    
     fill(251, 255, 20);
-    rect(P+119,P+221,P+2,P-16);//P12
-    rect(P+164,P+236,P+2,P-16);//P13
+    rect(e.P+119,e.P+221,e.P+2,e.P-16);//P12
+    rect(e.P+164,e.P+236,e.P+2,e.P-16);//P13
     
     //EXPLANATION BOX
     fill(255, 99, 99);//shade
@@ -646,12 +638,12 @@ var draw_electro = function (Electrostastic_force) {
     
     //arrows
     fill(255, 0, 225);
-    triangle(109,Al2,144,Al4,124,Al6);//left
-    rect(A+21,Ay+91,A-90,A-50);
-    triangle(165,Am2,193,Am4,179,Am6);//Middle
-    rect(A+74,Ay+138,A-90,A-61);
-    triangle(214,Ar2,242,Ar4,227,Ar6);//Right
-    rect(A+122,Ay+96,A-90,A-61);
+    triangle(109,e.Al2,144,e.Al4,124,e.Al6);//left
+    rect(e.A+21,e.Ay+91,e.A-90,e.A-50);
+    triangle(165,e.Am2,193,e.Am4,179,e.Am6);//Middle
+    rect(e.A+74,e.Ay+138,e.A-90,e.A-61);
+    triangle(214,e.Ar2,242,e.Ar4,227,e.Ar6);//Right
+    rect(e.A+122,e.Ay+96,e.A-90,e.A-61);
 
     //text 
     fill(255, 255, 255);
@@ -670,92 +662,78 @@ var draw_electro = function (Electrostastic_force) {
     text("Pieces of paper",226,250); //Ps
 
     //animation
-    ChX1+=0.25;
-    if (ChX1>133)  {ChX1=54;}
-    ChY1-=0.15;
-    if (ChY1>83)  {ChY1=115;}
+    e.ChX1+=0.25;
+    if (e.ChX1>133)  {e.ChX1=54;}
+    e.ChY1-=0.15;
+    if (e.ChY1>83)  {e.ChY1=115;}
     
+    e.ChX2+=0.2;
+    if (e.ChX2>116)  {e.ChX2=50;}
+    e.ChY2-=0.14;
+    if (e.ChY2>83)  {e.ChY2=115;}
     
-    ChX2+=0.2;
-    if (ChX2>116)  {ChX2=50;}
-    ChY2-=0.14;
-    if (ChY2>83)  {ChY2=115;}
+    e.ChX3+=0.13;
+    if (e.ChX3>130)  {e.ChX3=80;}
+    e.ChY3-=0.2;
+    if (e.ChY3>93)  {e.ChY3=136;}
     
-    ChX3+=0.13;
-    if (ChX3>130)  {ChX3=80;}
-    ChY3-=0.2;
-    if (ChY3>93)  {ChY3=136;}
+    // use e.Ay as the base value for the other 2 arrows
+    e.Ay-=0.5;
+    if (e.Ay<50)  {e.Ay=100;}
     
-    Ay-=0.5;
-    if (Ay<50)  {Ay=100;}
+    e.Al2 = e.Al4 = e.Ay+100;
+    e.Al6 = e.Ay+80;
+
+    e.Am2 = e.Am4 = e.Ay+140;
+    e.Am6 = e.Ay+120;
     
-    Al2-=0.5;//L
-    if (Al2<148)  {Al2=199;}
-    Al4-=0.5;//R
-    if (Al4<148)  {Al4=199;}
-    Al6-=0.5;//M
-    if (Al6<118)  {Al6=169;}
+    e.Ar2 = e.Ar4 = e.Ay+100;
+    e.Ar6 = e.Ay+80;
     
-    Am2-=0.5;//L
-    if (Am2<201)  {Am2=250;}
-    Am4-=0.5;//R
-    if (Am4<201)  {Am4=250;}
-    Am6-=0.5;//M
-    if (Am6<177)  {Am6=226;}
-    
-    Ar2-=0.5;//L
-    if (Ar2<148)  {Ar2=199;}
-    Ar4-=0.5;//R
-    if (Ar4<148)  {Ar4=199;}
-    Ar6-=0.5;//M
-    if (Ar6<118)  {Ar6=169;}
 };
 
-// var draw_M = function (m) {
-    var C=99;//coin (contains: face)
-    var CC=102;//Coin(outside)
-    var N=100;
-    var K=100;
-    var S=100;
+var setup_mag = function(m) {
+    
+    m.C=99;   // coin (contains: face)
+    m.CC=102; // coin (outside)
+    m.N=100;
+    m.K=100;
+    m.S=100;
     
     
-    var M=100;
-    var MM=93;
-    var M_MX=84;
-    var M_MY=196;
-    var M_MW=112;
-    var M_MH=140;
-    var in_M_M=false;
+    m.M=100;
+    m.MM=93;
+    m.M_MX=84;
+    m.M_MY=196;
+    m.M_MW=112;
+    m.M_MH=140;
+
+    // same for all arrows
+    m.arrow_x_spacing = 85;
+    m.arrow_w = 60;
+    m.arrow_h = m.arrow_w*2;
     
-    var C=99;
-    var CC=102;
-    var N=100;
-// };
-
-/*
-  +--^--+      a1x, a1y = top-left corner
-  |/   \|      aw, ah = width & height
-  |-+ +-|      point = ax+aw/2, ay
-  | | | |      stem_width = aw/3 
-  +-+-+-+
-
-*/
-// same for all arrows
-var arrow_x_spacing = 85;
-var arrow_w = 60;
-var arrow_h = arrow_w*2;
-
-var arrow_y_max = 150;
-var arrow_y_min = 230;
-var arrow_y_speed = 0.6;
-
-// left arrow (other two are copies)
-var arrow_x = 25; 
-var arrow_y = 162;
+    m.arrow_y_max = 150;
+    m.arrow_y_min = 230;
+    m.arrow_y_speed = 0.6;
+    
+    // left arrow (other two are copies)
+    m.arrow_x = 25; 
+    m.arrow_y = 162;
+};
 
 var draw_arrow = function (x,y,w,h) {
     // draw an arrow inside 
-    // the bounding box: x,y,w,h
+    // the box defined by x,y,w,h
+    /*
+      +--^--+      a1x, a1y = top-left corner
+      |/   \|      aw, ah = width & height
+      |-+ +-|      point = ax+aw/2, ay
+      | | | |      stem_width = aw/3 
+      +-+-+-+
+    
+    */
+
     triangle(
         x+w/2,  y,       // top point
         x,      y+h/2,   // left corner
@@ -765,46 +743,46 @@ var draw_arrow = function (x,y,w,h) {
 
 };
 
-var draw_examples = function() {
+var draw_mag_examples = function() {
     noStroke();
     background(255, 213, 145);
     
     fill(110, 108, 96);//outline
-    ellipse(CC+13,CC+145,CC+15,CC+15);
+    ellipse(m.CC+13,m.CC+145,m.CC+15,m.CC+15);
     fill(191, 188, 172);//inside
-    ellipse(CC+13,CC+145,CC+10,CC+10);
+    ellipse(m.CC+13,m.CC+145,m.CC+10,m.CC+10);
     fill(217, 209, 186);//hair behind
-    ellipse(C+24,C+137,C-40,C-60);
+    ellipse(m.C+24,m.C+137,m.C-40,m.C-60);
     fill(240, 238, 231);//coin pattern
-    ellipse(C+17,C+152,C-35,C-35);//FACE
-    triangle(C+28,C+112,C+24,C+168,C+58,C+160);//nose
-    triangle(C+15,C+112,C-4,C+189,C+27,C+198);//neck
+    ellipse(m.C+17,m.C+152,m.C-35,m.C-35);//FACE
+    triangle(m.C+28,m.C+112,m.C+24,m.C+168,m.C+58,m.C+160);//nose
+    triangle(m.C+15,m.C+112,m.C-4,m.C+189,m.C+27,m.C+198);//neck
     fill(217, 209, 186);
-    ellipse(C+40,C+146,8,7);//eye
+    ellipse(m.C+40,m.C+146,8,7);//eye
 
-    ellipse(C+-1,C+146,C-46,C-58);//hair1
-    ellipse(C+-5,C+159,C-60,C-60);//hair4
-    ellipse(C+13,C+129,C-40,C-60);//hair3
+    ellipse(m.C+-1,m.C+146,m.C-46,m.C-58);//hair1
+    ellipse(m.C+-5,m.C+159,m.C-60,m.C-60);//hair4
+    ellipse(m.C+13,m.C+129,m.C-40,m.C-60);//hair3
     
     //nail
     fill(138, 133, 138);
-    triangle(N+140,N+92,N+153,N+219,N+172,N+86);//END OF THE NAIL(SHADE)
+    triangle(m.N+140,m.N+92,m.N+153,m.N+219,m.N+172,m.N+86);//END OF THE NAIL(SHADE)
     fill(219, 219, 219);
-    triangle(N+137,N+96,N+151,N+219,N+168,N+86);//END OF THE NAIL(INSIDE)
+    triangle(m.N+137,m.N+96,m.N+151,m.N+219,m.N+168,m.N+86);//END OF THE NAIL(INSIDE)
     fill(138, 133, 138);
-    ellipse(N+155,N+98,N-26,N-68);
+    ellipse(m.N+155,m.N+98,m.N-26,m.N-68);
     fill(219, 219, 219);
-    ellipse(N+154,N+96,N-30,N-72);
+    ellipse(m.N+154,m.N+96,m.N-30,m.N-72);
     
     //knife
     fill(222, 222, 222);
-    triangle(K+-54,K+-54,K+58,K+-8,K+58,K+-55);//inside
+    triangle(m.K+-54,m.K+-54,m.K+58,m.K+-8,m.K+58,m.K+-55);//inside
     fill(201, 201, 201);
-    triangle(K+-22,K+-54,K+56,K+-29,K+58,K+-55);//shade
+    triangle(m.K+-22,m.K+-54,m.K+56,m.K+-29,m.K+58,m.K+-55);//shade
     fill(232, 170, 0);
-    rect(K+57,K-55,K-49,K-80);
+    rect(m.K+57,m.K-55,m.K-49,m.K-80);
     fill(135, 97, 3);
-    rect(K+57,K-55,K-70,K-83);
+    rect(m.K+57,m.K-55,m.K-70,m.K-83);
     
     //Spoon
     fill(217, 217, 217);
@@ -839,28 +817,28 @@ var draw_mag = function (m) {
     noStroke();
     
     //Magnets- Outside:)
-    fill(217, 0, 0);//N
-    rect(M+53, MM+-89, M-51, M+96,5);
-    fill(41, 0, 207);//S
-    rect(M+53, MM+-94, M-51, M+5,6);
+    fill(217, 0, 0);//m.N
+    rect(m.M+53, m.MM+-89, m.M-51, m.M+96,5);
+    fill(41, 0, 207);//m.S
+    rect(m.M+53, m.MM+-94, m.M-51, m.M+5,6);
     
     //Magnets Inside
-    fill(255, 0, 0);//N
-    rect(M+52, MM+-88, M-60, M+93,3);
-    fill(47, 0, 255);//S
-    rect(M+52, MM+-89, M-60, M+0,3);
+    fill(255, 0, 0);//m.N
+    rect(m.M+52, m.MM+-88, m.M-60, m.M+93,3);
+    fill(47, 0, 255);//m.S
+    rect(m.M+52, m.MM+-89, m.M-60, m.M+0,3);
     
     //gray magnet 1.
     fill(120, 115, 115);
-    rect(M_MX,M_MY,M_MW, M_MH,8);
+    rect(m.M_MX,m.M_MY,m.M_MW, m.M_MH,8);
     fill(196, 192, 192);
-    rect(M+-11, MM+106, M+4, M+32,8);
+    rect(m.M+-11, m.MM+106, m.M+4, m.M+32,8);
     
     //2.
     fill(120, 115, 115);
-    rect(M+-16, MM+242, M+12, M+40,8);
+    rect(m.M+-16, m.MM+242, m.M+12, m.M+40,8);
     fill(196, 192, 192);
-    rect(M+-16, MM+243, M+4, M+32,8);
+    rect(m.M+-16, m.MM+243, m.M+4, m.M+32,8);
     
     // explanation
     fill(184, 77, 0);
@@ -879,22 +857,22 @@ var draw_mag = function (m) {
     fill(18, 35, 128);
 
     draw_arrow(
-        arrow_x, 
-        arrow_y, 
-        arrow_w, 
-        arrow_h);
+        m.arrow_x, 
+        m.arrow_y, 
+        m.arrow_w, 
+        m.arrow_h);
     
     draw_arrow(
-        arrow_x + arrow_x_spacing, 
-        arrow_y, 
-        arrow_w, 
-        arrow_h);
+        m.arrow_x + m.arrow_x_spacing, 
+        m.arrow_y, 
+        m.arrow_w, 
+        m.arrow_h);
     
     draw_arrow(
-        arrow_x + arrow_x_spacing*2,
-        arrow_y, 
-        arrow_w, 
-        arrow_h);
+        m.arrow_x + m.arrow_x_spacing*2,
+        m.arrow_y, 
+        m.arrow_w, 
+        m.arrow_h);
     
     //Texts
     fill(255, 255, 255);
@@ -919,13 +897,18 @@ var draw_mag = function (m) {
     text("the magnetic material.",204,264); 
      
     //ANIMATION TOOLS
-    arrow_y -= arrow_y_speed;
-    if (arrow_y < arrow_y_max) {
-        arrow_y = arrow_y_min;
+    m.arrow_y -= m.arrow_y_speed;
+    if (m.arrow_y < m.arrow_y_max) {
+        m.arrow_y = m.arrow_y_min;
     }
 };
 
-var draw_quiz = function (q){};
+var setup_quiz = function (q) {
+};
+
+var draw_quiz = function (q) {
+    
+};
 
 
 
@@ -959,16 +942,20 @@ var mouseClicked = function() {
     if (s.in_gbox) {
         setup_gravity(g);
         scene = 'G_force';
+        
     } else if (s.in_mbox) {
         setup_mag(m);
         scene = 'M_force';
+        
     } else if (s.in_ebox) {
         setup_electro(e);
         scene = 'E_force';
+        
     } else if (s.in_qbox) {
         setup_quiz(q);
         scene = 'Quiz';
-    } else {
+        
+    } else { // not on any button, so return to start
         setup_start(s);
         scene = 'Start';
     }

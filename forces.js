@@ -1,17 +1,9 @@
-//Instruction= How to use this scene control? When you are to use the control, you should type something that you want to show/ see from the right colum e.g. "Start" "M_force" "Mini_Quiz".
-// e.g. usage var scene ="G_force"
 // scene control
-
 var scenes = ["Start", "G_force", "E_force", "M_force", "M_examples", "Quiz"];
-var scene = "Start"; // pick one from scenes
 
 // These 5 {object} variables hold ALL the other variables used in the 5 areas.
 // Create 'sub-variables' using a dot, eg g.planet=100. 
 // These sub-variables are called 'attributes'.
-
-// Before the main 'draw' loop begins each of the 'holder' variables is
-// passed to a matching setup function to make sure 
-// all its attributes (sub-variables) are reset
 
 var s = {};
 var g = {};
@@ -19,6 +11,10 @@ var e = {};
 var m = {};
 var q = {};
 
+
+// Before the main 'draw' loop begins each of the 'holder' variables is
+// passed to a matching setup function to make sure 
+// all its attributes (sub-variables) are reset
 var setup_start = function(s) {
     s.G=10;//Gravity. F
     s.E=10;//Electrostatic. F
@@ -51,6 +47,290 @@ var setup_start = function(s) {
     s.in_mbox = false;
 };
 
+var setup_gravity = function(g) {
+    // initialise all these variables as attributes of the 'g' variable
+    // so they can be used and modified inside the drawGravity function
+    g.planet=100;
+    g.B=100;
+    g.W=100;
+    g.H=100;
+    g.E=100;
+    g.S=100;
+    g.A=100;
+    g.F=100;
+    g.Fy=100;
+    g.Sg=100;
+    g.Al1=199;
+    g.Al2=216;
+    g.Al3=199;
+    g.Am1=227;
+    g.Am2=250;
+    g.Am3=227;
+    g.Ar1=178;
+    g.Ar2=199;
+    g.Ar3=178;
+    g.Ar=100;
+    g.Ary=100;
+};
+
+var setup_electro = function(e) {
+    // set variables to their 'start' positions
+    e.P=30;
+    e.C=100;
+    e.A=100;
+    e.Ay=100;
+    e.Ch=25;
+    e.ChX1=99;
+    e.ChY1=99;
+    
+    e.ChX2=99;
+    e.ChY2=99;
+    
+    e.ChX3=99;
+    e.ChY3=99;
+    
+    e.Al2=199;
+    e.Al4=200;
+    e.Al6=169;
+    
+    e.Am2=250;
+    e.Am4=250;
+    e.Am6=226;
+    
+    e.Ar2=199;
+    e.Ar4=200;
+    e.Ar6=169;
+};
+
+var setup_mag = function(m) {
+    
+    m.C=99;   // coin (contains: face)
+    m.CC=102; // coin (outside)
+    m.N=100;
+    m.K=100;
+    m.S=100;
+    
+    m.M=100;
+    m.MM=93;
+    m.M_MX=250;
+    m.M_MY=290;
+    m.M_MW=112;
+    m.M_MH=80;
+    m.in_M_M = false;
+
+    // same for all arrows
+    m.arrow_x_spacing = 35;
+    m.arrow_w = 30;
+    m.arrow_h = m.arrow_w*2;
+    
+    m.arrow_y_max = 150;
+    m.arrow_y_min = 230;
+    m.arrow_y_speed = 0.6;
+    
+    // left arrow (other two are copies)
+    m.arrow_x = 50; 
+    m.arrow_y = 160;
+};
+
+var setup_quiz = function (q) {
+    // TODO
+};
+
+
+// helper functions
+var draw_arrow = function (x,y,w,h) {
+    // draw an arrow inside 
+    // the box defined by x,y,w,h
+    /*
+      +--^--+      a1x, a1y = top-left corner
+      |/   \|      aw, ah = width & height
+      |-+ +-|      point = ax+aw/2, ay
+      | | | |      stem_width = aw/3 
+      +-+-+-+
+    
+    */
+
+    triangle(
+        x+w/2,  y,       // top point
+        x,      y+h/2,   // left corner
+        x+w,    y+h/2);  // right corner
+    
+    rect(x+w/3, y+h/2, w/3, h/2);
+
+};
+
+var draw_mag_main = function (m) {
+    
+    background(255, 255, 255);
+    
+    fill(255, 221, 140);
+    rect(-1,200,403,199);
+    noStroke();
+    
+    //Magnets- Outside:)
+    fill(217, 0, 0); // N
+    rect(m.M-25, m.MM+-89, m.M-51, m.M+96,5);
+    fill(41, 0, 207); //S
+    rect(m.M-25, m.MM+-94, m.M-51, m.M+5,6);
+    
+    //Magnets Inside
+    fill(255, 0, 0);//m.N
+    rect(m.M-25, m.MM+-88, m.M-60, m.M+93,3);
+    fill(47, 0, 255);//m.S
+    rect(m.M-25, m.MM+-89, m.M-60, m.M+0,3);
+    
+    //Texts
+    fill(255, 255, 255);
+    textSize(23);
+    text("N",m.M-12,45); //N
+    fill(255, 255, 255);
+    textSize(23);
+    text("S",m.M-12,186); //S
+    textSize(20);
+    
+
+    // mouseover for examples (was gray magnet 1)
+    fill(156, 125, 163);
+    rect(m.M_MX+5,m.M_MY+3,m.M_MW, m.M_MH,8);
+    fill(232, 174, 245);
+    rect(m.M_MX, m.M_MY, m.M_MW, m.M_MH,8);
+    
+    fill(83, 84, 67);
+    textSize(16);
+    text("Examples of",m.M_MX+8,m.M_MY+22);
+    
+    fill(255, 0, 0);
+    text("Magnetic Materials",m.M_MX+23,m.M_MY+34,m.M_MW, m.M_MH);
+    
+    // gray magnet (was grey magnet 2)
+    fill(120, 115, 115);
+    rect(m.arrow_x-5, m.arrow_y+70, m.M+12, m.M+40,8);
+    fill(196, 192, 192);
+    rect(m.arrow_x-5, m.arrow_y+70, m.M+4, m.M+32,8);
+    
+    
+    // explanation
+    fill(184, 77, 0);
+    rect(224,172,150,32,5);
+    rect(201,197,190,32,5);
+    rect(208,221,161,32,5);
+    rect(197,246,200,32,5);//shade
+    
+    fill(222, 133, 17);
+    rect(227,172,145,25,5);
+    rect(204,197,185,25,5);
+    rect(211,221,156,25,5);
+    rect(198,246,197,25,5);
+    
+    // explanation text
+    fill(255, 255, 255);
+    textSize(19);
+    text("Magnetic force ",235,190);
+    text("is the force between",209,214);
+    text("the magnet and",218,239); 
+    text("the magnetic material.",204,264); 
+     
+
+    //Force arrows
+    fill(18, 35, 128);
+
+    draw_arrow(
+        m.arrow_x, 
+        m.arrow_y, 
+        m.arrow_w, 
+        m.arrow_h);
+    
+    draw_arrow(
+        m.arrow_x + m.arrow_x_spacing, 
+        m.arrow_y, 
+        m.arrow_w, 
+        m.arrow_h);
+    
+    draw_arrow(
+        m.arrow_x + m.arrow_x_spacing*2,
+        m.arrow_y, 
+        m.arrow_w, 
+        m.arrow_h);
+
+    //ANIMATION TOOLS
+    m.arrow_y -= m.arrow_y_speed;
+    if (m.arrow_y < m.arrow_y_max) {
+        m.arrow_y = m.arrow_y_min;
+    }
+    
+};
+
+var draw_mag_examples = function() {
+    
+    noStroke();
+    background(255, 213, 145);
+    
+    fill(110, 108, 96);//outline
+    ellipse(m.CC+13,m.CC+145,m.CC+15,m.CC+15);
+    fill(191, 188, 172);//inside
+    ellipse(m.CC+13,m.CC+145,m.CC+10,m.CC+10);
+    fill(217, 209, 186);//hair behind
+    ellipse(m.C+24,m.C+137,m.C-40,m.C-60);
+    fill(240, 238, 231);//coin pattern
+    ellipse(m.C+17,m.C+152,m.C-35,m.C-35);//FACE
+    triangle(m.C+28,m.C+112,m.C+24,m.C+168,m.C+58,m.C+160);//nose
+    triangle(m.C+15,m.C+112,m.C-4,m.C+189,m.C+27,m.C+198);//neck
+    fill(217, 209, 186);
+    ellipse(m.C+40,m.C+146,8,7);//eye
+
+    ellipse(m.C+-1,m.C+146,m.C-46,m.C-58);//hair1
+    ellipse(m.C+-5,m.C+159,m.C-60,m.C-60);//hair4
+    ellipse(m.C+13,m.C+129,m.C-40,m.C-60);//hair3
+    
+    //nail
+    fill(138, 133, 138);
+    triangle(m.N+140,m.N+92,m.N+153,m.N+219,m.N+172,m.N+86);//END OF THE NAIL(SHADE)
+    fill(219, 219, 219);
+    triangle(m.N+137,m.N+96,m.N+151,m.N+219,m.N+168,m.N+86);//END OF THE NAIL(INSIDE)
+    fill(138, 133, 138);
+    ellipse(m.N+155,m.N+98,m.N-26,m.N-68);
+    fill(219, 219, 219);
+    ellipse(m.N+154,m.N+96,m.N-30,m.N-72);
+    
+    //knife
+    fill(222, 222, 222);
+    triangle(m.K+-54,m.K+-54,m.K+58,m.K+-8,m.K+58,m.K+-55);//inside
+    fill(201, 201, 201);
+    triangle(m.K+-22,m.K+-54,m.K+56,m.K+-29,m.K+58,m.K+-55);//shade
+    fill(232, 170, 0);
+    rect(m.K+57,m.K-55,m.K-49,m.K-80);
+    fill(135, 97, 3);
+    rect(m.K+57,m.K-55,m.K-70,m.K-83);
+    
+    //Spoon
+    fill(217, 217, 217);
+    ellipse(283,66,54,38);//circle
+    ellipse(317,70,119,16);//leg
+    fill(207, 203, 207);
+    ellipse(282,66,37,28);//circle
+    
+    fill(255, 255, 255);
+    textSize(18);
+    text("Cobalt coin",71,331); //materials: coin
+    text("Nail",272,331); //materials: coin
+    text("Knife",119,36); //materials: knife
+    text("Spoon",326,47); //materials: spoon
+    
+    //Explanation box
+    fill(176, 255, 177);
+    rect(70,95,250,78,-17);
+    
+    //text
+    fill(255, 255, 255);
+    textSize(25);
+    text("Examples of",127,123); //Title
+    text("Magnetic Materials",87,160); //Title
+
+};
+
+
+// one (and only one) of these draw_xxx functions is called from the
+// main draw loop, depending on the value of 'scene'
 var draw_start = function(s) {
    
     background(255, 255, 255);
@@ -226,32 +506,6 @@ var draw_start = function(s) {
     
     fill(145, 0, 255);
     text("Magnetic force" , 158, 311, 100, 50);
-};
-
-var setup_gravity = function(g) {
-    // initialise all these variables as attributes of the 'g' variable
-    // so they can be used and modified inside the drawGravity function
-    g.planet=100;
-    g.B=100;
-    g.W=100;
-    g.H=100;
-    g.E=100;
-    g.S=100;
-    g.A=100;
-    g.F=100;
-    g.Fy=100;
-    g.Sg=100;
-    g.Al1=199;
-    g.Al2=216;
-    g.Al3=199;
-    g.Am1=227;
-    g.Am2=250;
-    g.Am3=227;
-    g.Ar1=178;
-    g.Ar2=199;
-    g.Ar3=178;
-    g.Ar=100;
-    g.Ary=100;
 };
 
 var draw_gravity = function (g) {
@@ -536,35 +790,6 @@ var draw_gravity = function (g) {
     if (g.Ar3>274)  {g.Ar3=178;}
 };
 
-var setup_electro = function(e) {
-    // set variables to their 'start' positions
-    e.P=30;
-    e.C=100;
-    e.A=100;
-    e.Ay=100;
-    e.Ch=25;
-    e.ChX1=99;
-    e.ChY1=99;
-    
-    e.ChX2=99;
-    e.ChY2=99;
-    
-    e.ChX3=99;
-    e.ChY3=99;
-    
-    e.Al2=199;
-    e.Al4=200;
-    e.Al6=169;
-    
-    e.Am2=250;
-    e.Am4=250;
-    e.Am6=226;
-    
-    e.Ar2=199;
-    e.Ar4=200;
-    e.Ar6=169;
-};
-
 var draw_electro = function (e) {
     background(255, 255, 255);
 
@@ -692,242 +917,37 @@ var draw_electro = function (e) {
     
 };
 
-var setup_mag = function(m) {
-    
-    m.C=99;   // coin (contains: face)
-    m.CC=102; // coin (outside)
-    m.N=100;
-    m.K=100;
-    m.S=100;
-    
-    
-    m.M=100;
-    m.MM=93;
-    m.M_MX=84;
-    m.M_MY=196;
-    m.M_MW=112;
-    m.M_MH=140;
-    m.in_M_M = false;
-
-    // same for all arrows
-    m.arrow_x_spacing = 85;
-    m.arrow_w = 60;
-    m.arrow_h = m.arrow_w*2;
-    
-    m.arrow_y_max = 150;
-    m.arrow_y_min = 230;
-    m.arrow_y_speed = 0.6;
-    
-    // left arrow (other two are copies)
-    m.arrow_x = 25; 
-    m.arrow_y = 162;
-};
-
-var draw_arrow = function (x,y,w,h) {
-    // draw an arrow inside 
-    // the box defined by x,y,w,h
-    /*
-      +--^--+      a1x, a1y = top-left corner
-      |/   \|      aw, ah = width & height
-      |-+ +-|      point = ax+aw/2, ay
-      | | | |      stem_width = aw/3 
-      +-+-+-+
-    
-    */
-
-    triangle(
-        x+w/2,  y,       // top point
-        x,      y+h/2,   // left corner
-        x+w,    y+h/2);  // right corner
-    
-    rect(x+w/3, y+h/2, w/3, h/2);
-
-};
-
 var draw_mag = function (m) {
-    
-    background(255, 255, 255);
-    
-    fill(255, 221, 140);
-    rect(-1,200,403,199);
-    noStroke();
-    
-    //Magnets- Outside:)
-    fill(217, 0, 0); // N
-    rect(m.M+53, m.MM+-89, m.M-51, m.M+96,5);
-    fill(41, 0, 207); //S
-    rect(m.M+53, m.MM+-94, m.M-51, m.M+5,6);
-    
-    //Magnets Inside
-    fill(255, 0, 0);//m.N
-    rect(m.M+52, m.MM+-88, m.M-60, m.M+93,3);
-    fill(47, 0, 255);//m.S
-    rect(m.M+52, m.MM+-89, m.M-60, m.M+0,3);
-    
-
-    //gray magnet 1.
-    fill(120, 115, 115);
-    rect(m.M_MX,m.M_MY,m.M_MW, m.M_MH,8);
-    fill(196, 192, 192);
-    rect(m.M+-11, m.MM+106, m.M+4, m.M+32,8);
-    
-    //2.
-    fill(120, 115, 115);
-    rect(m.M+-16, m.MM+242, m.M+12, m.M+40,8);
-    fill(196, 192, 192);
-    rect(m.M+-16, m.MM+243, m.M+4, m.M+32,8);
-    
-    // explanation
-    fill(184, 77, 0);
-    rect(224,172,150,32,5);
-    rect(201,197,193,32,5);
-    rect(208,221,161,32,5);
-    rect(197,246,207,32,5);//shade
-    
-    fill(222, 133, 17);
-    rect(227,172,145,25,5);
-    rect(204,197,188,25,5);
-    rect(211,221,156,25,5);
-    rect(198,246,202,25,5);
-    
-    //Force arrows
-    fill(18, 35, 128);
-
-    draw_arrow(
-        m.arrow_x, 
-        m.arrow_y, 
-        m.arrow_w, 
-        m.arrow_h);
-    
-    draw_arrow(
-        m.arrow_x + m.arrow_x_spacing, 
-        m.arrow_y, 
-        m.arrow_w, 
-        m.arrow_h);
-    
-    draw_arrow(
-        m.arrow_x + m.arrow_x_spacing*2,
-        m.arrow_y, 
-        m.arrow_w, 
-        m.arrow_h);
-    
-    //Texts
-    fill(255, 255, 255);
-    textSize(23);
-    text("N",165,45); //N
-    fill(255, 255, 255);
-    textSize(23);
-    text("S",166,186); //S
-    textSize(20);
-    text("Magnetic",99,257); //Magnetic
-    text("Materials",100,283); //Materials
-    
-    fill(242, 255, 0);
-    textSize(19);
-    text("-Examples-",98,320); //Click me
-    
-    fill(255, 255, 255);
-    textSize(19);
-    text("Magnetic force ",235,190);
-    text("is the force between",209,214);
-    text("the magnet and",218,239); 
-    text("the magnetic material.",204,264); 
-     
-    //ANIMATION TOOLS
-    m.arrow_y -= m.arrow_y_speed;
-    if (m.arrow_y < m.arrow_y_max) {
-        m.arrow_y = m.arrow_y_min;
+    // choose one of two version of the mag scene:
+    if (mouseX > m.M_MX && 
+        mouseX < m.M_MX + m.M_MW && 
+        mouseY > m.M_MY && 
+        mouseY < m.M_MY + m.M_MH) {
+            
+        m.in_M_M = true;
+        draw_mag_examples(m);
+        
+    } else {
+        m.in_M_M = false;
+        draw_mag_main(m);
     }
-    
-};
-
-var draw_mag_examples = function() {
-    
-    noStroke();
-    background(255, 213, 145);
-    
-    fill(110, 108, 96);//outline
-    ellipse(m.CC+13,m.CC+145,m.CC+15,m.CC+15);
-    fill(191, 188, 172);//inside
-    ellipse(m.CC+13,m.CC+145,m.CC+10,m.CC+10);
-    fill(217, 209, 186);//hair behind
-    ellipse(m.C+24,m.C+137,m.C-40,m.C-60);
-    fill(240, 238, 231);//coin pattern
-    ellipse(m.C+17,m.C+152,m.C-35,m.C-35);//FACE
-    triangle(m.C+28,m.C+112,m.C+24,m.C+168,m.C+58,m.C+160);//nose
-    triangle(m.C+15,m.C+112,m.C-4,m.C+189,m.C+27,m.C+198);//neck
-    fill(217, 209, 186);
-    ellipse(m.C+40,m.C+146,8,7);//eye
-
-    ellipse(m.C+-1,m.C+146,m.C-46,m.C-58);//hair1
-    ellipse(m.C+-5,m.C+159,m.C-60,m.C-60);//hair4
-    ellipse(m.C+13,m.C+129,m.C-40,m.C-60);//hair3
-    
-    //nail
-    fill(138, 133, 138);
-    triangle(m.N+140,m.N+92,m.N+153,m.N+219,m.N+172,m.N+86);//END OF THE NAIL(SHADE)
-    fill(219, 219, 219);
-    triangle(m.N+137,m.N+96,m.N+151,m.N+219,m.N+168,m.N+86);//END OF THE NAIL(INSIDE)
-    fill(138, 133, 138);
-    ellipse(m.N+155,m.N+98,m.N-26,m.N-68);
-    fill(219, 219, 219);
-    ellipse(m.N+154,m.N+96,m.N-30,m.N-72);
-    
-    //knife
-    fill(222, 222, 222);
-    triangle(m.K+-54,m.K+-54,m.K+58,m.K+-8,m.K+58,m.K+-55);//inside
-    fill(201, 201, 201);
-    triangle(m.K+-22,m.K+-54,m.K+56,m.K+-29,m.K+58,m.K+-55);//shade
-    fill(232, 170, 0);
-    rect(m.K+57,m.K-55,m.K-49,m.K-80);
-    fill(135, 97, 3);
-    rect(m.K+57,m.K-55,m.K-70,m.K-83);
-    
-    //Spoon
-    fill(217, 217, 217);
-    ellipse(283,66,54,38);//circle
-    ellipse(317,70,119,16);//leg
-    fill(207, 203, 207);
-    ellipse(282,66,37,28);//circle
-    
-    fill(255, 255, 255);
-    textSize(18);
-    text("Cobalt coin",71,331); //materials: coin
-    text("Nail",272,331); //materials: coin
-    text("Knife",119,36); //materials: knife
-    text("Spoon",326,47); //materials: spoon
-    
-    //Explanation box
-    fill(176, 255, 177);
-    rect(70,95,250,78,-17);
-    
-    //text
-    fill(255, 255, 255);
-    textSize(25);
-    text("Examples of",127,123); //Title
-    text("Magnetic Materials",87,160); //Title
-
-};
-
-var setup_quiz = function (q) {
 };
 
 var draw_quiz = function (q) {
-    
+    // TODO
 };
 
-
-
-// ACTUAL START OF PROGRAM!
+// *** ACTUAL START OF PROGRAM! ***
 setup_start(s);
 setup_gravity(g);
 setup_electro(e);
 setup_mag(m);
 setup_quiz(q);
 
+// begin with the Start scene before we start the draw loop (that runs forever)
+var scene = "Start";
+
 var draw = function() {
-    background(255, 255, 255);
-    
     if (scene === "Start") {
         draw_start(s);
         
@@ -938,20 +958,8 @@ var draw = function() {
         draw_electro(e);
         
     } else if (scene === "M_force") {
-        
-        if (mouseX > m.M_MX && 
-            mouseX < m.M_MX + m.M_MW && 
-            mouseY > m.M_MY && 
-            mouseY < m.M_MY + m.M_MH) {
-                
-            m.in_M_M = true;
-            draw_mag_examples(m);
-            
-        } else {
-            m.in_M_M = false;
             draw_mag(m);
-        }
-
+            
     } else if (scene === "Quiz") {
         draw_quiz(q);
         
